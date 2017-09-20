@@ -1,0 +1,7 @@
+- all import on the top of the file
+- no .pyc files in the repository
+- doc strings and more comments
+- more descriptive variable names
+- Not: if condition: pass else: ...
+- limit the scope of the try block - files were opened, but almost never closed
+- Not: if condition == True
