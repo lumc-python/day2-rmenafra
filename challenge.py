@@ -7,14 +7,21 @@ Created on Wed Nov 28 19:31:39 2018
 """
 import argparse
 import gzip
-def get_content(fastafile):
+def get_content_gz(fastafile):
     sequence = []    
     with gzip.open(fastafile,'rt') as fh:
         for line in fh:
             if not line.startswith('>'):
                 sequence.append(line.strip())
     return sequence
-
+def get_content(fastafile):
+    sequence = []    
+    with open(fastafile,'r') as fh:
+        for line in fh:
+            if not line.startswith('>'):
+                sequence.append(line.strip())
+    return sequence
+    
 def substrings(sequences, k):
     """Compute substring of n"""
     unique = {}
@@ -47,10 +54,16 @@ def calc_gc_percent(sequence):
 parser = argparse.ArgumentParser()
 ##give argument to the parser
 parser.add_argument('input_file', help="input sequence is a fasta file")
+parser.add_argument('--gz', action='store_true')
 arguments = parser.parse_args()
 
-fastafile = arguments.input_file
-fastaseq = get_content(fastafile)
+
+fastafile = arguments.input_file 
+is_compressed = arguments.gz
+if is_compressed:
+    fastaseq = get_content_gz(fastafile)
+else:
+    fastaseq = get_content(fastafile)
 kmer_dic=substrings(fastaseq,7)
 
 key_max = max(kmer_dic.keys(), key=(lambda x: kmer_dic[x]))
