@@ -9,7 +9,7 @@ import sys
 import gzip
 def get_content(fastafile):
     sequence = []    
-    with gzip.open(fastafile,'rb', encoding='latin-1') as fh:
+    with gzip.open(fastafile,'rb') as fh:
         for line in fh:
             if not line.startswith('>'):
                 sequence.append(line.strip())
