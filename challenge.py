@@ -5,11 +5,11 @@ Created on Wed Nov 28 19:31:39 2018
 
 @author: roberta_menafra
 """
-import sys
+import argparse
 import gzip
 def get_content(fastafile):
     sequence = []    
-    with gzip.open(fastafile,'rb') as fh:
+    with gzip.open(fastafile,'rt') as fh:
         for line in fh:
             if not line.startswith('>'):
                 sequence.append(line.strip())
@@ -43,8 +43,13 @@ def calc_gc_percent(sequence):
         return gc_count * 100.0 / (gc_count + at_count)  
     except ZeroDivisionError:
         return 0.0     
-    
-fastafile = sys.argv[1]
+##create parser    
+parser = argparse.ArgumentParser()
+##give argument to the parser
+parser.add_argument('input_file', help="input sequence is a fasta file")
+arguments = parser.parse_args()
+
+fastafile = arguments.input_file
 fastaseq = get_content(fastafile)
 kmer_dic=substrings(fastaseq,7)
 
